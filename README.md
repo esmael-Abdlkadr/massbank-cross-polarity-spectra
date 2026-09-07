@@ -8,8 +8,8 @@ Run one compound in positive mode and in negative mode and the two spectra look 
 
 | File | Rows | Description |
 |---|---|---|
-| `spectra.csv` | 35,811 | One row per spectrum: identity and acquisition metadata |
-| `peaks.csv` | 1,168,045 | One row per fragment peak, keyed by spectrum |
+| `spectra.csv` | 34,018 | One row per spectrum: identity and acquisition metadata |
+| `peaks.csv` | 1,054,727 | One row per fragment peak, keyed by spectrum |
 
 ### spectra.csv
 
@@ -29,17 +29,17 @@ Run one compound in positive mode and in negative mode and the two spectra look 
 |---|---|---|
 | `spectrum_id` | string | Foreign key into `spectra.csv` |
 | `mz` | float | Fragment mass-to-charge ratio, daltons |
-| `intensity` | float | Peak intensity, normalized per spectrum so the base peak is 999 |
+| `log_intensity` | float | Natural log of one plus relative intensity; `expm1()` recovers the linear 0-999 value exactly |
 
 ## Scale
 
 | | count |
 |---|---|
-| spectra | 35,811 |
-| peaks | 1,168,045 |
-| distinct compounds | 6,183 |
-| compounds measured in both polarities | 1,599 |
-| positive / negative spectra | 27,081 / 8,730 |
+| spectra | 34,018 |
+| peaks | 1,054,727 |
+| distinct compounds | 5,396 |
+| compounds measured in both polarities | 1,552 |
+| positive / negative spectra | 26,443 / 7,575 |
 | instrument types | 22 |
 
 ## Notes
@@ -49,7 +49,6 @@ Run one compound in positive mode and in negative mode and the two spectra look 
 - A compound may contribute many spectra differing in collision energy, instrument and laboratory. Spectra of one compound are **not** independent, so any evaluation split must be made on compound identity rather than on individual spectra.
 - Positive-mode acquisition is far more common than negative, which is why only about a quarter of compounds carry both.
 - Each spectrum retains at most its 200 most intense peaks; spectra with fewer than six peaks are excluded.
-- Peak intensities are heavy-tailed and deliberately not clipped: the median peak is 21.8 against a base-peak ceiling of 999, and 78% of peaks fall below a tenth of the base peak. Automated profilers flag this as extreme outliers; it is the shape of a fragmentation spectrum, and the intense fragments are the diagnostic ones.
 
 ## Licence
 
