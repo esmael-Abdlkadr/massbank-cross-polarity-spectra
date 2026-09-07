@@ -49,6 +49,7 @@ Run one compound in positive mode and in negative mode and the two spectra look 
 - A compound may contribute many spectra differing in collision energy, instrument and laboratory. Spectra of one compound are **not** independent, so any evaluation split must be made on compound identity rather than on individual spectra.
 - Positive-mode acquisition is far more common than negative, which is why only about a quarter of compounds carry both.
 - Each spectrum retains at most its 200 most intense peaks; spectra with fewer than six peaks are excluded.
+- Peak intensities are heavy-tailed and deliberately not clipped: the median peak is 21.8 against a base-peak ceiling of 999, and 78% of peaks fall below a tenth of the base peak. Automated profilers flag this as extreme outliers; it is the shape of a fragmentation spectrum, and the intense fragments are the diagnostic ones.
 
 ## Licence
 
