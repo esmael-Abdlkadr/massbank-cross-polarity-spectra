@@ -10,6 +10,26 @@ Run one compound in positive mode and in negative mode and the two spectra look 
 |---|---|---|
 | `spectra.csv` | 34,018 | One row per spectrum: identity and acquisition metadata |
 | `peaks.csv` | 1,054,727 | One row per fragment peak, keyed by spectrum |
+| `build_release.py` | — | Rebuilds both tables from the pinned upstream release |
+| `MANIFEST.md` | — | Upstream pin, per-filter row counts, truncation rules, checksums |
+
+## Reproducing this dataset
+
+The tables above are derived. [`MANIFEST.md`](MANIFEST.md) pins the exact upstream
+release (**MassBank-data 2026.03**, timestamp `2026-03-16T18:36:30+09:00`, 139,240
+record files) and lists what every filter removed. `build_release.py` reruns the
+derivation end to end:
+
+```bash
+python build_release.py parse  --records ./MassBank-data-2026.03 --out ./index
+python build_release.py filter --index ./index --out .
+```
+
+A correct rebuild reproduces `spectra.csv` and `peaks.csv` **byte for byte**; the
+SHA-256 of each is recorded in the manifest so this can be checked directly. The
+filter stage prints the count removed at every step, so the licence filtering,
+the peak truncation and the totals quoted below are all auditable rather than
+asserted.
 
 ### spectra.csv
 
